@@ -2471,7 +2471,9 @@ async function getToken(){
 let left = CONFIG.REFRESH_SECONDS;
 async function refresh(){
   try{
-    const {token, demo} = await getToken();
+    const {token, demo, bubbles, labName} = await getToken();
+    if(Array.isArray(bubbles) && bubbles.length) CONFIG.BUBBLES = bubbles;          // fumetti dal foglio Messaggi
+    if(labName){ CONFIG.LAB_NAME = labName; document.getElementById('labName').textContent = labName; }
     const url = CONFIG.CHECKIN_URL + (CONFIG.CHECKIN_URL.includes('?')?'&':'?') + 't=' + encodeURIComponent(token);
     drawQR(url);
     statusEl.className='status';

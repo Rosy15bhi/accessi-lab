@@ -248,6 +248,8 @@ $('f').addEventListener('submit', async e=>{
       $('go').textContent='Registra e entra'; msg(''); return;
     }
     if(res.status==='ok' || res.status==='ok_fuori_lista'){
+      if(Array.isArray(res.messages) && res.messages.length) CONFIG.MESSAGES = res.messages;   // frasi dal foglio Messaggi
+      if(res.notInList) CONFIG.MESSAGE_NOT_IN_LIST = res.notInList;
       await camPromise; launchAR(res.nome || data.nome, res.status==='ok_fuori_lista'); return;
     }
     throw new Error(res.message || 'risposta inattesa');
