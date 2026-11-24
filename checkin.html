@@ -272,8 +272,9 @@ function stopCamera(){ if(stream){ stream.getTracks().forEach(t=>t.stop()); stre
 let lines=[], idx=0;
 function launchAR(nome, fuoriLista){
   nome = nome.charAt(0).toUpperCase()+nome.slice(1);
-  lines = CONFIG.MESSAGES.map(m=>m.replace('{nome}',nome));
-  if(fuoriLista) lines.splice(1,0,CONFIG.MESSAGE_NOT_IN_LIST);
+  // chi non è in lista: il messaggio "Fuori lista" prende il posto del primo saluto, poi seguono le regole
+  const msgs = fuoriLista ? [CONFIG.MESSAGE_NOT_IN_LIST, ...CONFIG.MESSAGES.slice(1)] : CONFIG.MESSAGES;
+  lines = msgs.map(m=>m.split('{nome}').join(nome));
   $('ar').classList.add('on'); if(!stream) $('ar').classList.add('nocam');
   $('dots').innerHTML = lines.map(()=>'<i></i>').join('');
   sparkles(); idx=0; setTimeout(()=>say(0),700);
